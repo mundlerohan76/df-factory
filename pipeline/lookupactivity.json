@@ -1,0 +1,97 @@
+{
+	"name": "lookupactivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupSP",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[dbo].[GetCustomerDetails]",
+						"storedProcedureParameters": {
+							"CustomerID": {
+								"type": "Int32",
+								"value": "227"
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LookupSP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "companyName",
+					"value": {
+						"value": "@activity('LookupSP').output.firstRow.CompanyName",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LookupSP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "salesParson",
+					"value": {
+						"value": "@activity('LookupSP').output.firstRow.SalesPerson",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"companyName": {
+				"type": "String"
+			},
+			"salesParson": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-09-05T12:23:26Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
