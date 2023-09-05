@@ -1,0 +1,27 @@
+{
+	"name": "webactivity_copy1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://datalake261086.blob.core.windows.net/csv/customer01.csv",
+					"method": "GET"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-09-05T11:18:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
